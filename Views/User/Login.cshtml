@@ -1,0 +1,33 @@
+﻿@model DoAn_LTWeb.Models.User
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_LayoutPage3.cshtml";
+}
+@{
+    var userName = Context.Request.Cookies["auth"];
+    var Role = Context.Request.Cookies["role"];
+}
+<h2 style="text-align: center">Login</h2>
+@using (Html.BeginForm("Login", "User", FormMethod.Post))
+    {
+        <div class="row">
+            @Html.LabelFor(model => model.UserName, "UserName")
+            @Html.TextBoxFor(model => model.UserName, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+        </div>
+        <div class="row">
+            @Html.LabelFor(model => model.Password, "Password")
+            @Html.TextBoxFor(model => model.Password, new { @class = "form-control", type = "password" })
+            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+        </div>
+        <div class="text-center mb-3 align-items-center justify-content-center">
+            <div class="col-4"></div>
+            <div class="col-7">
+                <br />
+                <button type="submit" class="btn btn-primary"><span>Login</span></button>
+                <div class="text-center">
+                   <p>Not a member? <a href="/User/Register">Register</a></p>
+                </div>
+            </div>
+        </div>
+    }

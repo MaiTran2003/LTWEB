@@ -1,0 +1,62 @@
+﻿@model List<DoAn_LTWeb.Models.Cart>
+@{
+    ViewBag.Title = "Giỏ hàng";
+    Layout = "~/Views/Shared/_LayoutPage2.cshtml";
+}
+<h2>@ViewBag.Title</h2>
+
+@section slmua{
+    <span id="cartItemCount" class="badge text-secondary border border-secondary rounded-circle">@ViewBag.SLSP</span>
+}
+<table class="table table-bordered">
+    <tr>
+        <th>STT</th>
+        <th>Ảnh</th>
+        <th>Tên</th>
+        <th>Số Lượng</th>
+        <th>Tổng Tiền</th>
+        <th>Xóa</th>
+    </tr>
+    @{
+        int i = 1;
+        int toPrice = 0;
+    }
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td> @i </td>
+            <td><img class="img-fluid w-100" style="max-height: 100px;" src="~/img/@item.Product.Image" alt=""></td>
+            <td>
+                @Html.DisplayFor(model => item.Product.Name)
+            </td>
+            <td>
+                @using (Html.BeginForm("UpdateQuantity", "Cart", FormMethod.Get))
+                {
+                    <input type="number" value="@item.Quantity" name="quan" min="0" style="width: 60px" />
+                    <input type="hidden" name="proId" value="@item.Id" />
+                    <input type="submit" value="Cập Nhật" class="btn btn-outline-primary" />
+                }
+            </td>
+            <td>
+                @{
+                    int Price = item.Product.Price * item.Quantity;
+                    toPrice += Price;
+                    i++;
+                }
+                @Price.ToString("N0") VNĐ
+            </td>
+            <td>
+                @using (Html.BeginForm("DeleteQuantity", "Cart", FormMethod.Get))
+                {
+                    <input type="hidden" name="proId" value="@item.Id" />
+                    <input type="submit" value="Xóa" class="btn btn-danger" />
+                }
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4" class="text-center">Tổng Tiền</td>
+            <td>@toPrice.ToString("N0") VND</td>
+        </tr>
+    }
+</table>
+<a href="/products">Tiếp tục mua hàng</a>

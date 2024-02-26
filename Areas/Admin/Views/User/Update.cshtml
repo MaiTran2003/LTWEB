@@ -1,0 +1,26 @@
+﻿@model DoAn_LTWeb.Models.User
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+<form action="/admin/user/update/@Model.UserId" method="post">
+    <input type="hidden" name="UserId" value="@Model.UserId" />
+    <div class="row">
+        <div class="col-md-6">
+            <label for="UserName">User Name</label>
+            <input type="text" class="form-control" id="UserName" placeholder="User Name" name="UserName" value="@Model.UserName" />
+        </div>
+        <div class="col-md-6">
+            <label for="EmailAddress">Email Address</label>
+            <input type="text" class="form-control" id="EmailAddress" placeholder="EmailAddress" name="EmailAddress" value="@Model.EmailAddress" />
+        </div>
+        <div class="col-md-6">
+            <label for="Role">Role</label>
+            <input type="text" class="form-control" id="Role" placeholder="Role" name="Role" value="@Model.Role" />
+        </div>
+    </div>
+    <button type="submit" class="btn btn-danger">Save</button>
+    <a href="/admin/user" class="btn btn-danger">Cancel</a>
+</form>

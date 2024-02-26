@@ -1,0 +1,34 @@
+﻿@model DoAn_LTWeb.Models.Product
+@{
+    ViewBag.Title = "Delete Product";
+}
+<h2>@ViewBag.Title</h2>
+<form action="/admin/Product/Delete/@Model.Id" method="post">
+    <input type="hidden"
+           name="ProductId"
+           value="@Model.Id" />
+    <table class="table">
+        <tr>
+            <th>Image</th>
+            <th>@Model.Image</th>
+        </tr>
+        <tr>
+            <th>Product Name</th>
+            <th>@Model.Name</th>
+        </tr>
+        <tr>
+            <th>Price</th>
+            <th>@Model.Price</th>
+        </tr>
+        <tr>
+            <th>Description</th>
+            <th>@Model.Description</th>
+        </tr>
+        <tr>
+            <th>Brand_ID</th>
+            <th>@Model.Brand_Id</th>
+        </tr>
+    </table>
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a href="/admin/Product" class="btn btn-dark">Cancel</a>
+</form>

@@ -1,0 +1,234 @@
+﻿@model List<DoAn_LTWeb.Models.Product>
+@{
+    ViewBag.Title = "Product";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayoutPage1.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+<a href="/admin/Product/Add">Create new product</a>
+<form class="d-flex flex-row align-items-center flex-wrap" action="/admin/product/index" method="post">
+    @Html.Label("Search", new { @class = "mx-2 my-1" })
+    @Html.TextBox("Search", ViewBag.search as string, new { @class = "form-control w-auto", placeholder = "Search..." })
+    <button type="submit" class="btn btn-primary mx-2">Sreach</button>
+</form>
+@{
+    string IconClass = "";
+    if (ViewBag.IconClass == "fa-sort-desc")
+    {
+        IconClass = "fa-sort-asc";
+    }
+    else
+    {
+        IconClass = "fa-sort-desc";
+    }
+}
+<!-- Nút View -->
+<button id="viewProductsBtn" class="btn btn-primary">Xem Sản Phẩm</button>
+
+<!-- Danh sách sản phẩm -->
+<div id="productListContainer">
+    <table class="table">
+        <!-- ... Mã HTML hiển thị danh sách sản phẩm ... -->
+        <tr>
+            <th>Hình ảnh</th>
+            <th>Mã sản phẩm</th>
+            <th>Tên sản phẩm</th>
+            <th>Giá</th>
+            <th>Mô tả</th>
+            <th>Mã thương hiệu</th>
+            <th>Sửa</th>
+            <th>Xóa</th>
+        </tr>
+       @* @foreach (var product in Model)
+        {
+            <tr>
+                <td>
+                    @if (product.Image == "")
+                    {
+                        <img src="~/img/noimage.jpg" width="150px" />
+                    }
+                    else
+                    {
+                        <img src="~/img/@product.Image" width="150px" />
+                    }
+                </td>
+                <td>@Html.DisplayFor(row => product.Id)</td>
+                <td>
+                    @Html.ActionLink(Html.DisplayFor(row => product.Name).ToString(), "Detail", new { id = product.Id, controller = "Product", area = "Admin" })
+                </td>
+                <td>@Html.DisplayFor(row => product.Price)</td>
+                <td>@Html.DisplayFor(row => product.Description)</td>
+                <td>@Html.DisplayFor(row => product.Brand_Id)</td>
+                <td>
+                    @Html.ActionLink("Sửa", "Edit", new { id = product.Id, controller = "Product", area = "Admin" })
+                </td>
+                <td>
+                    @Html.ActionLink("Xóa", "Delete", new { id = product.Id, controller = "Product", area = "Admin" })
+                </td>
+            </tr>
+        }*@
+        <tr>
+            <td colspan="8">
+                @{
+                    int PrevPage = ViewBag.Page - 1;
+                    if (PrevPage <= 0)
+                    {
+                        PrevPage = 1;
+                    }
+                    int NextPage = ViewBag.Page + 1;
+                    if (NextPage > ViewBag.NoOfPages)
+                    {
+                        NextPage = ViewBag.NoOfPages;
+                    }
+                }
+                <ul class="pagination justify-content-center">
+                    <li class="page-item ">
+                        <a class="page-link" href="/admin/Product?SortColumn=@ViewBag.SortColumn&IconClass=@ViewBag.IconClass&page=@PrevPage">Prev</a>
+                    </li>
+                    @for (int i = 0; i < ViewBag.NoOfPages; i++)
+                    {
+                        if (i + 1 == ViewBag.Page)
+                        {
+                            <li class="page-item active">
+                                <a class="page-link" href="/admin/Product?SortColumn=@ViewBag.SortColumn&IconClass=@ViewBag.IconClass&page=@(i+1)">@(i+1)</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="page-item ">
+                                <a class="page-link" href="/admin/Product?SortColumn=@ViewBag.SortColumn&IconClass=@ViewBag.IconClass&page=@(i+1)">@(i+1)</a>
+                            </li>
+                        }
+                    }
+                    <li class="page-item active">
+                        <a class="page-link" href="/admin/Product?SortColumn=@ViewBag.SortColumn&IconClass=@ViewBag.IconClass&page=@NextPage">Next</a>
+                    </li>
+                </ul>
+            </td>
+        </tr>
+    </table>
+</div>
+
+@section scripts {
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Function để load danh sách sản phẩm từ API và hiển thị lên trang
+            function loadProducts() {
+                $.ajax({
+                    url: '/api/Products',
+                    method: 'GET',
+                    success: function (data) {
+                        renderProductList(data);
+                    },
+                    error: function () {
+                        console.error('Lỗi khi lấy sản phẩm từ API');
+                    }
+                });
+            }
+
+            // Function để render danh sách sản phẩm lên trang
+            function renderProductList(products) {
+                var productListContainer = $('#productListContainer');
+                productListContainer.empty();
+
+                // Render HTML cho từng sản phẩm
+                var productListHTML = '<table class="table">';
+                productListHTML += '<tr><th>Hình ảnh</th><th>Mã sản phẩm</th><th>Tên sản phẩm</th><th>Giá</th><th>Mô tả</th><th>Mã thương hiệu</th><th>Sửa</th><th>Xóa</th></tr>';
+
+                $.each(products, function (index, product) {
+                    productListHTML += '<tr>';
+                    productListHTML += '<td>';
+
+                    if (product.Image == "") {
+                        productListHTML += '<img src="~/img/noimage.jpg" width="150px" />';
+                    } else {
+                        productListHTML += '<img src="/img/' + product.Image + '" width="150px" />';
+
+                    }
+
+                    productListHTML += '</td>';
+                    productListHTML += '<td>' + product.Id + '</td>';
+                    productListHTML += '<td><a href="/admin/Product/Detail/' + product.Id + '">' + product.Name + '</a></td>';
+                    productListHTML += '<td>' + product.Price + '</td>';
+                    productListHTML += '<td>' + product.Description + '</td>';
+                    productListHTML += '<td>' + product.Brand_Id + '</td>';
+                    productListHTML += '<td><a href="/admin/Product/Edit/' + product.Id + '">Sửa</a></td>';
+                    productListHTML += '<td><a href="/admin/Product/Delete/' + product.Id + '">Xóa</a></td>';
+                    productListHTML += '</tr>';
+                });
+
+                productListHTML += '</table>';
+                productListContainer.html(productListHTML);
+            }
+
+            // Gắn sự kiện click cho nút "View"
+            $('#viewProductsBtn').on('click', function () {
+                loadProducts();
+            });
+
+            // Gắn sự kiện click cho nút tìm kiếm
+            $('#searchBtn').on('click', function () {
+                searchProducts();
+            });
+
+            // Gắn sự kiện click cho các nút phân trang
+            $('.pagination a').on('click', function () {
+                var page = $(this).data('page');
+                loadProductsPage(page);
+            });
+
+            // Gắn sự kiện click cho các cột sắp xếp
+            $('.sortable-column').on('click', function () {
+                var column = $(this).data('column');
+                var iconClass = $(this).data('icon');
+
+                sortProducts(column, iconClass);
+            });
+        });
+
+        // Thêm vào script đã có
+        function searchProducts() {
+            var searchTerm = $('#searchInput').val();
+
+            $.ajax({
+                url: '/api/Products?search=' + searchTerm,
+                method: 'GET',
+                success: function (data) {
+                    renderProductList(data);
+                },
+                error: function () {
+                    console.error('Lỗi khi tìm kiếm sản phẩm từ API');
+                }
+            });
+        }
+
+        // Thêm vào script đã có
+        function loadProductsPage(page) {
+            $.ajax({
+                url: '/api/Products?page=' + page,
+                method: 'GET',
+                success: function (data) {
+                    renderProductList(data);
+                },
+                error: function () {
+                    console.error('Lỗi khi tải trang sản phẩm từ API');
+                }
+            });
+        }
+
+        // Thêm vào script đã có
+        function sortProducts(column, iconClass) {
+            $.ajax({
+                url: '/api/Products?SortColumn=' + column + '&IconClass=' + iconClass,
+                method: 'GET',
+                success: function (data) {
+                    renderProductList(data);
+                },
+                error: function () {
+                    console.error('Lỗi khi sắp xếp sản phẩm từ API');
+                }
+            });
+        }
+    </script>
+}

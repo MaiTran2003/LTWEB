@@ -1,0 +1,26 @@
+﻿@model List<DoAn_LTWeb.Models.Brand>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Brands</h2>
+<a href="/admin/Brand/Create" type="button" class="text-decoration-none btn btn-link btn-sm btn-rounded">Create Brand</a>
+<table class="table">
+    <tr>
+        <th>BrandID</th>
+        <th>BrandName</th>
+    </tr>
+    @foreach (var item in Model)
+     {
+        <tr>
+            <td>@item.Id</td>
+            <td>@item.Name</td>
+            <td>
+                <a href="/admin/Brand/Update/@item.Id" type="button" class="text-decoration-none btn btn-link btn-sm btn-rounded">Update</a>
+                |
+                <a href="/admin/Brand/Delete/@item.Id" type="button" class="text-decoration-none btn btn-link btn-sm btn-rounded">Delete</a>
+            </td>
+        </tr>
+
+     }
+</table>

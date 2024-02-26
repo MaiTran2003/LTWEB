@@ -1,0 +1,39 @@
+﻿@model DoAn_LTWeb.Models.User
+
+@{
+    ViewBag.Title = "Create User";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+
+@using (Html.BeginForm("Create", "User",new { area = "Admin" }, FormMethod.Post))
+{
+    <input type="hidden" name="role" value="user" />
+    <div class="row">
+        @Html.LabelFor(model => model.UserName, "UserName")
+        @Html.TextBoxFor(model => model.UserName, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+    </div>
+    <div class="row">
+        @Html.LabelFor(model => model.Password, "Password")
+        @Html.TextBoxFor(model => model.Password, new { @class = "form-control", type = "password" })
+        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+    </div>
+    <div class="row">
+        @Html.Label("Retype Password", new { @for = "retypePassword" })
+        @Html.TextBox("retypePassword", "", new { @class = "form-control", type = "password" })
+        @Html.ValidationMessage("retypePassword", "", new { @class = "text-danger" })
+    </div>
+    <div class="row">
+        @Html.LabelFor(model => model.EmailAddress, "EmailAddress")
+        @Html.TextBoxFor(model => model.EmailAddress, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.EmailAddress, "", new { @class = "text-danger" })
+    </div>
+    <div class="row">
+        <div class="col-2"></div>
+        <div class="col-6">
+            <button type="submit" class="btn btn-primary">Create</button>
+            <a href="/admin/user" class="btn btn-danger">Cancel</a>
+        </div>
+    </div>
+}

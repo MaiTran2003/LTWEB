@@ -1,0 +1,33 @@
+﻿@model List<DoAn_LTWeb.Models.Brand>
+@{
+    ViewBag.Title = "Update";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayoutPage1.cshtml";
+}
+
+<h2>Update Brand</h2>
+
+@using (Html.BeginForm("Update", "Brand",new { area = "Admin" }, FormMethod.Post))
+{
+    <table class="table">
+        <tr>
+            <th>Brand ID</th>
+            <th>Brand Name</th>
+        </tr>
+        @for(int i = 0; i < Model.Count; i++)
+         {
+            <tr>
+                <td>
+                    @Html.TextBox("brands[" + i + "].Id", Model[i].Id, new { @readonly = "readonly" })
+                </td>
+                <td>
+                    @Html.TextBox("brands[" + i + "].Name", Model[i].Name)
+                </td>
+            </tr>
+         }
+        <tr>
+            <td colspan="2">
+                <input type="submit" value="Save" />
+            </td>
+        </tr>
+    </table>
+}    

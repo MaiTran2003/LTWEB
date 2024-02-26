@@ -1,0 +1,92 @@
+﻿@model List<DoAn_LTWeb.Models.Product>
+@{
+    ViewBag.Title = "sidebar";
+    Layout = "~/Views/Shared/_LayoutPage2.cshtml";
+}
+
+@section sbar
+{
+    <div class="card">
+        <div class="card-header bg-dark text-light">
+            Brands
+        </div>
+        <ul class="list-group list-group-flush">
+            @foreach (var b in ViewBag.bra)
+            {
+                <li class="list-group-item">
+                    <a style="color:black;text-decoration:none" href="/products/sbar/@b.Id">@b.Name</a>
+                </li>
+            }
+        </ul>
+    </div>
+}
+
+@*<li class="nav-item dropdown" style="list-style-type: none;">
+        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Xắp Xếp</a>
+        <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">Content 1</a></li>
+            <li><a class="dropdown-item" href="#">Content 2</a></li>
+        </ul>
+    </li>*@
+<div class="container-fluid pt-3 pb-5">
+    <div class="row px-3">
+        @foreach (var product in Model)
+        {
+            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                <div class="product-item bg-light">
+                    <div class="product-img position-relative overflow-hidden">
+                        <a href="/products/details/@product.Id">
+                            <img class="img-fluid w-150" style="max-height: 300px;" src="~/img/@product.Image" alt="">
+                        </a>
+                    </div>
+                    <div class="text-center py-3">
+                        <a class="h6 text-decoration-none text-truncate" href="/products/detail">@product.Name</a>
+                        <div class="d-flex align-items-center justify-content-center mt-2">
+                            <h5>@product.Price đ</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<div class="pagination justify-content-center">
+    @{
+        int prev = ViewBag.page - 1;
+        if (prev <= 0)
+        {
+            prev = 1;
+        }
+        <div class="page-item">
+            <a class="page-link" href="/products/sbar/@ViewBag.id?search=@ViewBag.search&sortCol=@ViewBag.sortCol&cheDo=@ViewBag.cheDo&page=@prev">Prev</a>
+        </div>
+    }
+    @for (int i = 1; i <= ViewBag.tongST; i++)
+    {
+        if (ViewBag.page == i)
+        {
+            <div class="page-item active">
+                <a class="page-link" href="/products/sbar/@ViewBag.id?search=@ViewBag.search&sortCol=@ViewBag.sortCol&cheDo=@ViewBag.cheDo&page=@i">@i</a>
+            </div>
+        }
+        else
+        {
+            <div class="page-item">
+                <a class="page-link" href="/products/sbar/@ViewBag.id?search=@ViewBag.search&sortCol=@ViewBag.sortCol&cheDo=@ViewBag.cheDo&page=@i">@i</a>
+            </div>
+        }
+
+    }
+    @{
+        int next = ViewBag.page + 1;
+        if (next > ViewBag.tongST)
+        {
+            next = ViewBag.tongST;
+        }
+        <div class="page-item">
+            <a class="page-link" href="/products/sbar/@ViewBag.id?search=@ViewBag.search&sortCol=@ViewBag.sortCol&cheDo=@ViewBag.cheDo&page=@next">Next</a>
+        </div>
+    }
+</div>
+

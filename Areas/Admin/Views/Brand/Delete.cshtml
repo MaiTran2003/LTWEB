@@ -1,0 +1,21 @@
+﻿@model DoAn_LTWeb.Models.Brand
+@{
+    ViewBag.Title = "Delete Brand";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayoutPage1.cshtml";
+}
+
+<h2>Delete Brand</h2>
+
+<form action="/admin/Brand/Delete/@Model.Id" method="post">
+    <input type="hidden"
+           name="Id"
+           value="@Model.Id" />
+    <table class="table">
+        <tr>
+            <th>Brand Name</th>
+            <th>@Model.Name</th>
+        </tr>
+    </table>
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a href="/admin/Brand" class="btn btn-dark">Cancel</a>
+</form>

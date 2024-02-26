@@ -1,0 +1,26 @@
+﻿@model DoAn_LTWeb.Models.Product
+@{
+    ViewBag.Title = "Edit Product";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<form action="/admin/product/edit/@Model.Id" method="post">
+    <input type="hidden" name="Id" value="@Model.Id" />
+    <div class="row">
+        <div class="col-md-6">
+            <label for="Name">Product Name</label>
+            <input type="text" class="form-control" id="Name" placeholder="Product Name" name="Name" value="@Model.Name" />
+        </div>
+        <div class="col-md-6">
+            <label for="Price">Price</label>
+            <input type="number" class="form-control" id="Price" placeholder="Price" name="Price" value="@Model.Price" />
+        </div>
+        <div class="col-md-6">
+            <label for="Description">Description</label>
+            <input type="text" class="form-control" id="Description" placeholder="Description" name="Description" value="@Model.Description" />
+        </div>
+    </div>
+    <button type="submit" class="btn btn-danger">Save</button>
+    <a href="/admin/product" class="btn btn-danger">Cancel</a>
+</form>

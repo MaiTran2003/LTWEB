@@ -1,0 +1,25 @@
+﻿@model DoAn_LTWeb.Models.Brand
+@{
+    ViewBag.Title = "Create Brand";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayoutPage1.cshtml";
+}
+
+<h2>Create Brand</h2>
+
+@using (Html.BeginForm("Create", "Brand", new { area = "Admin" }, FormMethod.Post))
+{
+    <input type="hidden" name="role" value="user" />
+    <div class="row">
+        @Html.LabelFor(model => model.Name, "Name")
+        @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+    </div>
+    <div class="row">
+        <div class="col-2"></div>
+        <div class="col-6">
+            <button type="submit" class="btn btn-primary">Create</button>
+            <a href="/admin/user" class="btn btn-danger">Cancel</a>
+        </div>
+    </div>
+}
+

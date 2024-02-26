@@ -1,0 +1,26 @@
+﻿@model DoAn_LTWeb.Models.User
+@{
+    ViewBag.Title = "Delete";
+}
+<h2>Delete User</h2>
+<form action="/admin/User/Delete/@Model.UserId" method="post">
+    <input type="hidden"
+           name="UserId"
+           value="@Model.UserId" />
+    <table class="table">
+        <tr>
+            <th>User Name</th>
+            <th>@Model.UserName</th>
+        </tr>
+        <tr>
+            <th>Email Address</th>
+            <th>@Model.EmailAddress</th>
+        </tr>
+        <tr>
+            <th>Role</th>
+            <th>@Model.Role</th>
+        </tr>
+    </table>
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a href="/admin/User" class="btn btn-dark">Cancel</a>
+</form>

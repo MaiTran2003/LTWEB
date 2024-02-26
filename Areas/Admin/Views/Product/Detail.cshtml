@@ -1,0 +1,30 @@
+﻿@model DoAn_LTWeb.Models.Product
+@{
+    ViewBag.Title = "Product Detail";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<table class="table">
+    <tr>
+        <th>Product ID</th>
+        <td>@Model.Id</td>
+    </tr>
+    <tr>
+        <th>Product Name</th>
+        <td>@Model.Name</td>
+    </tr>
+    <tr>
+        <th>Price</th>
+        <td>@Model.Price</td>
+    </tr>
+    <tr>
+        <th>Description</th>
+        <td>@Model.Description</td>
+    </tr>
+    <tr>
+        <th>Brand ID</th>
+        <td>@Model.Brand_Id</td>
+    </tr>
+</table>
+<a href="@Url.Action("Index", "Product")">Back to list products</a>
